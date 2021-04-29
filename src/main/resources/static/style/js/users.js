@@ -1,28 +1,29 @@
 layui.use(['element', 'table', 'layer', 'jquery'], function () {
-    var element = layui.element,
+    const element = layui.element,
         form = layui.form,
         layer = layui.layer,
-        table = layui.table,
-        $ = layui.$,
-        layer_user;
+        table = layui.table;
+    let $ = layui.$;
+    let layer_user;
     table.render({
         elem: '#users'
         , id: 'users'
         , height: 488
-        , url: 'show' //数据接口
+        , url: '/user/showUsers' //数据接口
         , cellMinWidth: 60
         , page: true //开启分页
         , cols: [[ //表头
-            { field: 'kid', title: 'ID', sort: true }
-            , { field: 'username', title: '用户名' }
+            { field: 'id', title: 'ID', sort: true }
+            , { field: 'no', title: '学号' }
             , { field: 'name', title: '姓名' }
             , { field: 'lasttime', title: '最后操作时间' }
             , { align: 'center', toolbar: '#operation-bar', fixed: 'right', width: 178 }
         ]]
     });
-    var $ = layui.$, active = {
+    $ = layui.$;
+    let active = {
         new: function () {
-            layer_user=layer.open({
+            layer_user = layer.open({
                 type: 1,
                 title: '添加人员',
                 content: $('#add-user').html()
@@ -30,19 +31,19 @@ layui.use(['element', 'table', 'layer', 'jquery'], function () {
         }
     };
     $('.btn-wrap .layui-btn').on('click', function () {
-        var type = $(this).data('type');
+        const type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
     table.on('tool(users)', function(obj){
-        var data = obj.data;
+        const data = obj.data;
         if(obj.event === 'del'){
             layer.confirm('确认删除么', function(index){
                 layui.layer.close(index);
-                var json={}
+                const json = {};
                 json.id=data.id;
-                return beauty_ajax("del",json,function () {
+                return beauty_ajax("/user/deleteUser",json,function () {
                     table.reload('users', {
-                        url: "show"
+                        url: "/user/showUsers"
                     });
                 });
             });
@@ -57,7 +58,7 @@ layui.use(['element', 'table', 'layer', 'jquery'], function () {
                 $('#user-template form>div').eq(2).addClass('layui-hide');
                 $('#user-template button').attr('lay-filter','change-user');
                 $('#user-template input').each(function () {
-                    var cur_name=this.name;
+                    const cur_name = this.name;
                     if(data[cur_name] !== undefined){
                         this.value=data[cur_name];
                     }
@@ -66,9 +67,9 @@ layui.use(['element', 'table', 'layer', 'jquery'], function () {
         }
     });
     form.on('submit(add-user)', function(data){//新建用户
-        return beauty_ajax("add",data.field,function () {
+        return beauty_ajax("/user/createUser",data.field,function () {
             table.reload('users', {
-                url: "show"
+                url: "/user/showUsers"
             });
             layer.close(layer_user);
         });
@@ -76,7 +77,7 @@ layui.use(['element', 'table', 'layer', 'jquery'], function () {
     form.on('submit(change-user)', function(data){//修改用户信息
         return beauty_ajax("edit",data.field,function () {
             table.reload('users', {
-                url: "show"
+                url: "/user/showUsers"
             });
             layer.close(layer_user);
         });

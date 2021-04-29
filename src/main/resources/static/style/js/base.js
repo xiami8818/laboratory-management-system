@@ -1,10 +1,10 @@
 "use strict";
 layui.use(['form', 'jquery', 'layer'], function () {
-    var layer = layui.layer
+    const layer = layui.layer
         , form = layui.form
         , $ = layui.$;
-    var pass_layer;
-    $("#password-btn").click(function () {//修改密码
+    let pass_layer;
+    $('#password-btn').click(function () {//修改密码
         pass_layer=layer.open({
             type: 1,
             title: '修改密码',
@@ -12,21 +12,21 @@ layui.use(['form', 'jquery', 'layer'], function () {
         });
     });
     form.on('submit(password)', function (data) {
-        if (data.field.new_pass != data.field.confirm_pass) {
+        if (data.field.new_pass !== data.field.confirm_pass) {
             layer.msg('两次密码输入不同！', {icon: 5});
             return false;
         }else{
             return beauty_ajax("ex_pass", data.field, function(){
                 layer.close(pass_layer);
-                window.location.href="Login/index"; 
+                window.location.href="/login";
             });
         }
     });
 });
 function beauty_ajax(url,data,success_func) {//ajax表单提交
-    var $ = layui.$
+    const $ = layui.$
         , layer = layui.layer;
-    var submitting = layer.msg('正在提交', {
+    const submitting = layer.msg('正在提交', {
         icon: 16
         , shade: 0.1
         , time: 0
@@ -34,6 +34,7 @@ function beauty_ajax(url,data,success_func) {//ajax表单提交
     $.ajax({
         url: url,
         type: "post",
+        method: 'POST',
         data: data,
         success: function (data) {
             console.log(data);  //打印接受到的数据
@@ -49,7 +50,7 @@ function beauty_ajax(url,data,success_func) {//ajax表单提交
                     success_func();
                 }
             } else {
-                if(data.msg!=""){
+                if(data.msg !== ""){
                     layer.msg(data.msg, {
                         icon: 2
                         , shade: 0.1
@@ -76,4 +77,4 @@ function beauty_ajax(url,data,success_func) {//ajax表单提交
         }
     });
     return true;
-};
+}
