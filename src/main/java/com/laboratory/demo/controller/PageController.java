@@ -44,8 +44,13 @@ public class PageController {
     @RequestMapping("/term")
     public String term(HttpServletRequest request, Model model) {
         String userId = userService.getUserId(request);
-        User user = userService.getUserById(userId);
         String identity = userService.getIdentity(request);
+        User user = null;
+        if(identity.equals("admin")) {
+            user = userService.getAdminById(userId);
+        }else if(identity.equals("staff")) {
+            user = userService.getUserById(userId);
+        }
         List<Lab> labs = labSerivce.getAllLabs();
         model.addAttribute("labs", labs);
         model.addAttribute("user",user);
@@ -55,10 +60,14 @@ public class PageController {
 
     @RequestMapping("/lab")
     public String lab(HttpServletRequest request, Model model) {
-        String id = request.getParameter("id");
         String userId = userService.getUserId(request);
-        User user = userService.getUserById(userId);
         String identity = userService.getIdentity(request);
+        User user = null;
+        if(identity.equals("admin")) {
+            user = userService.getAdminById(userId);
+        }else if(identity.equals("staff")) {
+            user = userService.getUserById(userId);
+        }
         List<Lab> labs = labSerivce.getAllLabs();
         model.addAttribute("labs", labs);
         model.addAttribute("user",user);
