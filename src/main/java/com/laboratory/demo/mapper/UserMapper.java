@@ -35,4 +35,7 @@ public interface UserMapper {
 
     @Delete("delete from user where id=#{id}")
     void deleteUserById(@Param("id") int id);
+
+    @Update("update user set no=#{no}, name=#{name} where id=#{id}")
+    void updateUser(@Param("no") String no, @Param("name") String name, @Param("id") int id);
 }

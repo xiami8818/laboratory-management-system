@@ -75,7 +75,7 @@ layui.use(['element', 'table', 'layer', 'jquery'], function () {
         });
     });
     form.on('submit(change-user)', function(data){//修改用户信息
-        return beauty_ajax("edit",data.field,function () {
+        return beauty_ajax("/user/updateUser",data.field,function () {
             table.reload('users', {
                 url: "/user/showUsers"
             });

@@ -67,4 +67,21 @@ public class UserController {
         res.put("msg", "删除成功！");
         return res;
     }
+
+    @RequestMapping("/updateUser")
+    public Map<String, Object> updateUser(HttpServletRequest request) {
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", 0);
+        String no = request.getParameter("no");
+        String name = request.getParameter("name");
+        String id = request.getParameter("id");
+        if (no == null || name == null || id==null) {
+            res.put("msg", "修改失败！");
+            return res;
+        }
+        userService.updateUser(Integer.parseInt(id), no, name);
+        res.put("msg", "success");
+        return res;
+    }
+
 }

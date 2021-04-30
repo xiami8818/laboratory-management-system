@@ -121,4 +121,8 @@ public class UserService {
     public void deleteUserById(int id) {
         userMapper.deleteUserById(id);
     }
+
+    public void updateUser(int id, String no, String name) {
+        userMapper.updateUser(no, name, id);
+    }
 }
