@@ -125,4 +125,36 @@ public class UserService {
     public void updateUser(int id, String no, String name) {
         userMapper.updateUser(no, name, id);
     }
+
+    public Map<String, String> updatePassword(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(getUserId(request));
+        Map<String, String> res = new HashMap<>();
+        String new_pass = request.getParameter("new_pass");
+        String old_pass = request.getParameter("old_pass");
+        String password;
+        String identity = getIdentity(request);
+        if(identity.equals("admin")) {
+            password = userMapper.selectAdminPassById(id);
+        } else {
+            password = userMapper.selectUserPassById(id);
+        }
+        if(new_pass == null || old_pass == null) {
+            res.put("status", "failed");
+            res.put("msg", "两次密码输入不一致！");
+            return res;
+        }
+        if(password.equals(old_pass)) {
+            res.put("status", "failed");
+            res.put("msg", "原密码错误！");
+            return res;
+        }
+        if(identity.equals("admin")) {
+            userMapper.updateAdminPass(id, new_pass);
+        } else {
+            userMapper.updateUserPass(id, new_pass);
+        }
+        res.put("status", "success");
+        res.put("msg", "密码修改成功!");
+        return res;
+    }
 }

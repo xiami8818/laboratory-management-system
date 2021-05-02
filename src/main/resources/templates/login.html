@@ -17,19 +17,20 @@
 		<form method="POST" action="/user/login">
             <div class="index-tab-nav fadeInDown animated">
                 <div class="nav-slider layui-clear">
-                    <input type="radio" name="identity" value="staff" id="staff" checked="checked">
+                    <input type="radio" name="identity" value="staff" id="staff" class="layui-input" checked="checked">
                     <label for="staff" class="active">教职工</label>
-                    <input type="radio" name="identity" value="admin" id="admin">
+                    <input type="radio" name="identity" value="admin" id="admin" class="layui-input">
                     <label for="admin">管理员</label>
                     <span class="nav-slider-bar"></span>
                 </div>
             </div>
 			<div class="input-group fadeInDown animated">
 				<div class="input-wrap">
-					<input type="text" placeholder="用户名" name="no" required>
+					<input type="text" class="layui-input" placeholder="用户名" name="no" required>
 				</div>
 				<div class="input-wrap">
-					<input type="password" placeholder="密码" name="password" required>
+					<input type="password" placeholder="密码" id="password" required>
+					<input type="password" name="password" id="md5password" style="display: none"/>
 				</div>
 				<div class="input-wrap">
 					<input type="text" placeholder="验证码" class="code_input" maxlength="5" required>
@@ -48,6 +49,7 @@
 	</div>
 	<canvas id="Mycanvas" style="z-index: -1;position:absolute;top: 0;width: 100%;height: 100%;"></canvas>
 	<script src="/style/layui/layui.js"></script>
+	<script src="/style/js/md5.js"></script>
 	<script src="/style/js/login.js"></script>
 	</body>
 </html>

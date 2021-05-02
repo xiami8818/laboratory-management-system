@@ -16,7 +16,9 @@ layui.use(['form', 'jquery', 'layer'], function () {
             layer.msg('两次密码输入不同！', {icon: 5});
             return false;
         }else{
-            return beauty_ajax("ex_pass", data.field, function(){
+            data.field.new_pass = MD5("密码：" + data.field.new_pass);
+            data.field.old_pass = MD5("密码：" + data.field.old_pass);
+            return beauty_ajax("/user/changePassword", data.field, function(){
                 layer.close(pass_layer);
                 window.location.href="/login";
             });

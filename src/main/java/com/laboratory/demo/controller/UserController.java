@@ -84,4 +84,8 @@ public class UserController {
         return res;
     }
 
+    @PostMapping("/changePassword")
+    public Map<String, String> changePassword(HttpServletRequest request, HttpServletResponse response) {
+        return userService.updatePassword(request, response);
+    }
 }
